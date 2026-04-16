@@ -1,0 +1,192 @@
+<div class="min-h-screen bg-white">
+    <!-- Hero Section -->
+    <section class="bg-yellow-200 text-black">
+        <div class="container mx-auto px-4 flex flex-col lg:flex-row items-center gap-16 pt-32 pb-4 h-auto min-h-[600px] md:pt-48 lg:h-[600px] lg:py-0 relative mb-12">
+            <!-- Left Content -->
+            <div class="lg:w-1/2 space-y-2 relative z-10 flex flex-col justify-center h-full pt-0 lg:pt-0">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight pt-8 lg:pt-24">
+                    <%= post.title %>
+                </h1>
+                <p class="text-[21px] text-black max-w-xl leading-relaxed my-4">
+                    <%= post.excerpt || 'Read this insightful blog post from Kestora University student ambassadors.' %>
+                </p>
+                <p class="text-sm text-gray-700">
+                    Published on <%= new Date(post.publishDate).toLocaleDateString() %>
+                </p>
+            </div>
+
+            <!-- Right Image -->
+            <div class="lg:w-1/2 h-full w-full relative mt-4 lg:mt-0 lg:translate-y-16 z-20 flex justify-center lg:block">
+                <div class="h-full">
+                    <div class="relative w-[368px] h-[368px] lg:w-full lg:h-full bg-neutral-800 shadow-2xl overflow-hidden">
+                        <img
+                            src="<%= post.imageUrl || '/images/admissions/hero.jpg' %>"
+                            alt="<%= post.title %>"
+                            class="object-cover opacity-90 w-full h-full"
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Breadcrumb Navigation -->
+    <div class="container mx-auto px-4 py-6 max-w-4xl">
+        <nav aria-label="Breadcrumb" class="flex items-center space-x-2 text-sm">
+            <a
+                href="/"
+                class="text-neutral-500 hover:text-black transition-colors font-medium"
+            >
+                Home
+            </a>
+            <span class="text-neutral-400">/</span>
+            <a
+                href="/blog"
+                class="text-neutral-500 hover:text-black transition-colors font-medium"
+            >
+                Blog
+            </a>
+            <span class="text-neutral-400">/</span>
+            <span class="text-neutral-900 font-medium truncate max-w-xs">
+                <%= post.title %>
+            </span>
+        </nav>
+
+        <!-- Alternative: Compact back navigation -->
+        <div class="mt-4">
+            <a href="/blog" class="text-neutral-600 hover:text-black font-semibold inline-flex items-center gap-2 transition-colors group">
+                ←
+                <span>Back to Blog</span>
+                <span class="text-neutral-400">•</span>
+                <span class="text-neutral-500 text-xs capitalize tracking-wide">All Posts</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="mx-auto px-8 py-8 md:py-16 max-w-4xl w-full">
+        <div class="blog-content">
+            <%- post.content %>
+        </div>
+
+        <!-- Tags -->
+        <div class="mt-12 pt-8">
+            <div class="flex flex-wrap gap-2">
+                <% (post.tags && post.tags.length > 0 ? post.tags : [
+                    'Student Life',
+                    'Finland',
+                    'University',
+                    'Education',
+                    'International Students'
+                ]).forEach(tag => { %>
+                    <a
+                        href="/?tag=<%= encodeURIComponent(tag) %>"
+                        class="inline-block bg-black text-white text-xs font-medium px-3 py-1 rounded-md uppercase tracking-wide hover:bg-gray-800 transition-colors"
+                    >
+                        <%= tag %>
+                    </a>
+                <% }); %>
+            </div>
+        </div>
+
+        <!-- Keep Reading -->
+        <% if (otherBlogs && otherBlogs.length > 0) { %>
+            <div class="mt-16 pt-10">
+                <h3 class="text-left text-sm font-bold uppercase tracking-widest text-neutral-900 mb-6">Keep Reading</h3>
+                <div class="-mx-8 px-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+                        <% otherBlogs.forEach(blog => { %>
+                            <a key="<%= blog.id %>" href="/<%= blog.slug %>" class="group flex flex-col h-full bg-neutral-100 shadow-none">
+                                <div class="aspect-video bg-neutral-200 overflow-hidden mb-4 relative">
+                                    <img
+                                        src="<%= blog.imageUrl || '/images/admissions/events.jpg' %>"
+                                        alt="<%= blog.title %>"
+                                        class="object-cover group-hover:scale-105 transition-transform duration-500 w-full h-full"
+                                    />
+                                    <div class="absolute top-4 left-4">
+                                        <span class="px-3 py-1 text-[10px] font-bold uppercase tracking-widest bg-black text-white">
+                                            Blog
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="flex-1 flex flex-col p-5">
+                                    <h3 class="text-xl font-bold mb-2 group-hover:underline leading-tight"><%= blog.title %></h3>
+                                    <p class="text-sm text-neutral-600 line-clamp-3 mb-4 flex-1">
+                                        <%= blog.excerpt || blog.content.replace(/<[^>]*>/g, '').slice(0, 150) + "..." %>
+                                    </p>
+                                    <% if (blog.tags && blog.tags.length > 0) { %>
+                                        <div class="flex flex-wrap gap-1 mb-3">
+                                            <% blog.tags.slice(0, 3).forEach(tag => { %>
+                                                <span class="inline-block bg-black text-white text-xs px-2 py-1 rounded-full capitalize">
+                                                    <%= tag %>
+                                                </span>
+                                            <% }); %>
+                                        </div>
+                                    <% } %>
+                                    <div class="mt-auto pt-3 flex items-center text-xs text-neutral-500 uppercase tracking-wider">
+                                        <span><%= formatToDDMMYYYY(blog.publishDate) %></span>
+                                    </div>
+                                </div>
+                            </a>
+                        <% }); %>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+
+        <!-- Post Navigation -->
+        <% if (prevBlog || nextBlog) { %>
+            <div class="mt-16 pt-10">
+                <h3 class="text-sm font-bold uppercase tracking-widest text-neutral-900 mb-6">More Posts</h3>
+                <div class="flex justify-between items-center">
+                    <% if (prevBlog) { %>
+                        <a
+                            href="/<%= prevBlog.slug %>"
+                            class="flex items-center gap-2 text-neutral-600 hover:text-black transition-colors group"
+                        >
+                            ←
+                            <div class="text-left">
+                                <div class="text-xs font-bold uppercase tracking-widest text-neutral-400">Previous</div>
+                                <div class="text-sm font-semibold line-clamp-1"><%= prevBlog.title %></div>
+                            </div>
+                        </a>
+                    <% } else { %>
+                        <div></div>
+                    <% } %>
+                    <% if (nextBlog) { %>
+                        <a
+                            href="/<%= nextBlog.slug %>"
+                            class="flex items-center gap-2 text-neutral-600 hover:text-black transition-colors group text-right"
+                        >
+                            <div class="text-right">
+                                <div class="text-xs font-bold uppercase tracking-widest text-neutral-400">Next</div>
+                                <div class="text-sm font-semibold line-clamp-1"><%= nextBlog.title %></div>
+                            </div>
+                            →
+                        </a>
+                    <% } else { %>
+                        <div></div>
+                    <% } %>
+                </div>
+            </div>
+        <% } %>
+
+        <!-- Related Links -->
+        <div class="mt-16 pt-10">
+            <h3 class="text-sm font-bold capitalize tracking-widest text-neutral-900 mb-6">Related Links</h3>
+            <div class="grid md:grid-cols-3 gap-4">
+                <a href="/admissions/application-process" class="bg-neutral-50 p-5 rounded-xl hover:bg-neutral-100 transition-colors group">
+                    <h4 class="font-bold text-neutral-900 mb-1 group-hover:underline text-sm">How to Apply</h4>
+                    <p class="text-xs text-neutral-500">Step-by-step application guide.</p>
+                </a>
+                <a href="/studies" class="bg-neutral-50 p-5 rounded-xl hover:bg-neutral-100 transition-colors group">
+                    <h4 class="font-bold text-neutral-900 mb-1 group-hover:underline text-sm">Explore Programmes</h4>
+                    <p class="text-xs text-neutral-500">Browse all degree programmes.</p>
+                </a>
+                <a href="/student-guide/international" class="bg-neutral-50 p-5 rounded-xl hover:bg-neutral-100 transition-colors group">
+                    <h4 class="font-bold text-neutral-900 mb-1 group-hover:underline text-sm">International Students</h4>
+                    <p class="text-xs text-neutral-500">Visa, housing, and arrival info.</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

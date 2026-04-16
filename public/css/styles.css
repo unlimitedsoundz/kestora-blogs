@@ -1,0 +1,356 @@
+@import '../../node_modules/ckeditor5/dist/ckeditor5.css';
+
+/* ---- Cross-editor content styles. --------------------------------------------------------------- */
+.ck.ck-content:not(.ck-style-grid__button__preview):not(.ck-editor__nested-editable) {
+  /* Make sure all content containers have some min height to make them easier to locate. */
+  min-height: 300px;
+  padding: 1em 1.5em;
+}
+
+/* Make sure all content containers are distinguishable on a web page even of not focused. */
+.ck.ck-content:not(:focus) {
+  border: 1px solid var(--ck-color-base-border);
+}
+
+/* Fix for editor styles overflowing into comment reply fields */
+.ck-comment__input .ck.ck-content {
+  min-height: unset;
+  border: 0;
+  padding: 0;
+}
+
+/* Font sizes and vertical rhythm for common elements (headings, lists, paragraphs, etc.) */
+.ck-content h1 {
+  font-size: 2.3em;
+}
+.ck-content h2 {
+  font-size: 1.84em;
+}
+.ck-content h3 {
+  font-size: 1.48em;
+}
+.ck-content h4 {
+  font-size: 1.22em;
+}
+.ck-content h5 {
+  font-size: 1.06em;
+}
+.ck-content h6 {
+  font-size: 1em;
+}
+.ck-content h1,
+.ck-content h2,
+.ck-content h3,
+.ck-content h4,
+.ck-content h5,
+.ck-content h6 {
+  padding-top: 0.8em;
+  margin-bottom: 0.4em;
+}
+.ck-content blockquote,
+.ck-content ol,
+.ck-content p,
+.ck-content ul {
+  padding-top: 0.2em;
+  margin-bottom: var(--ck-spacing-large);
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+:root {
+  --background: #ffffff;
+  --foreground: #000000;
+
+  --color-primary: #0055A4;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #f0f7ff;
+  --color-secondary-foreground: #0055A4;
+  --color-accent: #e5f1ff;
+  --color-accent-foreground: #0055A4;
+
+  --color-black: #000000;
+  --color-neutral-900: #2d2d2d;
+  --color-background: #ffffff;
+  --color-foreground: #2d2d2d;
+
+  --color-muted: #f8fafc;
+  --color-muted-foreground: #64748b;
+
+  --color-card: #ffffff;
+  --color-card-foreground: #2d2d2d;
+
+  --color-border: #e2e8f0;
+  --color-input: #e2e8f0;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-serif: var(--font-playfair), Georgia, serif;
+
+  --radius-xs: 0px !important;
+  --radius-sm: 0px !important;
+  --radius-md: 0px !important;
+  --radius-lg: 0px !important;
+  --radius-xl: 0px !important;
+  --radius-2xl: 0px !important;
+  --radius-3xl: 0px !important;
+  --radius-full: 9999px;
+}
+
+/* Force zero border radius on everything that might have it */
+*,
+*::before,
+*::after {
+  border-radius: 0 !important;
+}
+
+.force-circle {
+  border-radius: 9999px !important;
+}
+
+/* Custom Utilities */
+.glass {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--color-border);
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--color-background);
+  color: var(--color-foreground);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Selection color for Blue theme */
+::selection {
+  background: #0055A4;
+  color: #ffffff;
+}
+
+/* Global Bullet Replacement (Right Chevron 2px thick) */
+ul.list-disc,
+.blog-content ul {
+  list-style: none !important;
+  padding-left: 0 !important;
+}
+
+ul.list-disc li,
+.blog-content li {
+  position: relative !important;
+  padding-left: 1.5rem !important;
+  list-style-type: none !important;
+}
+
+ul.list-disc li::before,
+.blog-content li::before {
+  content: "" !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: 0.5em !important;
+  width: 8px !important;
+  height: 8px !important;
+  border-top: 2px solid currentColor !important;
+  border-right: 2px solid currentColor !important;
+  transform: translateY(-50%) rotate(45deg) !important;
+  opacity: 0.8 !important;
+}
+
+/* Public Site Overrides (Exclude Admin/Portal) */
+/* Using :has() to target body when children do NOT include admin/portal themes */
+body:not(:has([data-theme="admin"])):not(:has([data-theme="portal"])) {
+
+  /* Force neutral borders to be strict black 2px */
+  .border-neutral-200,
+  .border-neutral-100,
+  .border-neutral-50,
+  .border-neutral-300 {
+    border-color: #000000;
+    border-width: 1px;
+  }
+
+  /* Remove all shadows */
+  [class*="shadow-"] {
+    box-shadow: none !important;
+  }
+}
+
+/* Blog content styling to match ReactQuill editor */
+.ql-editor {
+  word-break: keep-all;
+  hyphens: none;
+}
+.ql-editor img {
+  margin: 1rem 0;
+}
+.ql-editor p {
+  margin: 1rem 0;
+}
+
+/* Blog content typography fix - force clean text wrapping */
+.blog-content {
+  word-break: normal !important;
+  overflow-wrap: break-word !important;
+  white-space: normal !important;
+  overflow-x: auto;
+}
+
+.blog-content * {
+  word-break: normal !important;
+  overflow-wrap: break-word !important;
+  white-space: normal !important;
+}
+
+/* 🔥 THIS is the hidden fix */
+.blog-content p,
+.blog-content h1,
+.blog-content h2,
+.blog-content h3,
+.blog-content span {
+  display: block;
+}
+
+/* Custom blog content typography */
+.blog-content h1 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  line-height: 2.5rem;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.blog-content h2 {
+  font-size: 1.875rem;
+  font-weight: 700;
+  line-height: 2.25rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.blog-content h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 2rem;
+  margin-top: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.blog-content p {
+  margin-bottom: 1.25rem;
+  line-height: 1.8;
+}
+
+.blog-content ul,
+.blog-content ol {
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+}
+
+.blog-content li {
+  margin-bottom: 0.5rem;
+}
+
+.blog-content blockquote {
+  border-left: 4px solid #e5e7eb;
+  padding-left: 1rem;
+  margin: 1.5rem 0;
+  font-style: italic;
+}
+
+.blog-content img {
+  max-width: 100%;
+  height: auto;
+  margin: 1rem 0;
+}
+
+.blog-content figure.image {
+  display: block;
+  clear: both;
+  text-align: center;
+  margin: 1rem auto;
+}
+
+.blog-content figure.image img {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  min-width: 50px;
+}
+
+/* CKEditor 5 image resize support */
+.blog-content figure.image.image_resized {
+  max-width: 100%;
+  display: block;
+  box-sizing: border-box;
+}
+
+.blog-content figure.image.image_resized img {
+  width: 100%;
+}
+
+.blog-content figure.image.image_resized > figcaption {
+  display: block;
+}
+
+/* CKEditor 5 image alignment */
+.blog-content figure.image-style-side {
+  float: right;
+  margin-left: 1.5em;
+  max-width: 50%;
+}
+
+.blog-content figure.image-style-align-left {
+  float: left;
+  margin-right: 1.5em;
+}
+
+.blog-content figure.image-style-align-right {
+  float: right;
+  margin-left: 1.5em;
+}
+
+.blog-content figure.image-style-align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* CKEditor 5 inline image */
+.blog-content span.image-inline {
+  display: inline-flex;
+  max-width: 100%;
+  align-items: flex-start;
+}
+
+.blog-content span.image-inline img {
+  flex-grow: 1;
+  flex-shrink: 1;
+  max-width: 100%;
+}
+
+/* 🔥 Caption (THIS is the main part) */
+.blog-content figure.image figcaption {
+  background-color: #f3f4f6; /* light grey */
+  padding: 12px 16px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #374151; /* dark grey */
+  margin-top: 0; /* no gap */
+  text-align: left;
+}
+
+/* Remove Tailwind caption styling */
+.blog-content figcaption {
+  all: unset;
+  display: block;
+}
+
+.blog-content a {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+.blog-content a:hover {
+  color: #1d4ed8;
+}

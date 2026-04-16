@@ -1,0 +1,175 @@
+<div class="min-h-screen bg-white">
+    <!-- Hero Section -->
+    <section class="bg-[#1a1a1a] text-white">
+        <div class="container mx-auto px-4 flex flex-col lg:flex-row items-center gap-16 pt-32 pb-4 h-auto min-h-[600px] md:pt-48 lg:h-[600px] lg:py-0 relative mb-12">
+            <!-- Left Content -->
+            <div class="lg:w-1/2 space-y-2 relative z-10 flex flex-col justify-center h-full pt-0 lg:pt-0">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight pt-8 lg:pt-24">
+                    Kestora Student Ambassadors Blog
+                </h1>
+                <p class="text-[21px] text-white max-w-xl leading-relaxed my-4">
+                    Stories and insights from Kestora University student ambassadors sharing their experiences studying and living in Finland.
+                </p>
+            </div>
+
+            <!-- Right Image -->
+            <div class="lg:w-1/2 h-full w-full relative mt-4 lg:mt-0 lg:translate-y-16 z-20 flex justify-center lg:block">
+                <div class="h-full">
+                    <div class="relative w-[368px] h-[368px] lg:w-full lg:h-full bg-neutral-800 shadow-2xl overflow-hidden">
+                        <img
+                            src="/images/admissions/hero.jpg"
+                            alt="Kestora Student Ambassadors Blog"
+                            class="object-cover opacity-90 w-full h-full"
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Breadcrumb Navigation -->
+    <div class="container mx-auto px-4 py-6 max-w-6xl">
+        <nav aria-label="Breadcrumb" class="flex items-center space-x-2 text-sm">
+            <a
+                href="/"
+                class="text-neutral-500 hover:text-black transition-colors font-medium"
+            >
+                Home
+            </a>
+            <span class="text-neutral-400">/</span>
+            <span class="text-neutral-900 font-medium">Blog</span>
+        </nav>
+
+        <!-- Alternative: Compact back navigation -->
+        <div class="mt-4">
+            <a href="/" class="text-neutral-600 hover:text-black font-semibold inline-flex items-center gap-2 transition-colors group">
+                ←
+                <span>Back to Home</span>
+                <span class="text-neutral-400">•</span>
+                <span class="text-neutral-500 text-xs uppercase tracking-wide">University</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="container mx-auto px-4 py-8 md:py-16 max-w-6xl">
+        <% if (tag) { %>
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold mb-4">Posts tagged with "<%= tag %>"</h2>
+                <a href="/blog" class="text-neutral-600 hover:text-black underline">← Back to all posts</a>
+            </div>
+        <% } %>
+
+        <% if (posts.length === 0) { %>
+            <div class="text-center py-16">
+                <h2 class="text-2xl font-bold mb-4">No posts found</h2>
+                <p class="text-neutral-600 mb-8">There are no blog posts available at the moment.</p>
+                <a href="/" class="bg-black text-white px-6 py-3 font-bold hover:bg-gray-800 transition-colors">Back to Home</a>
+            </div>
+        <% } else { %>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <% posts.forEach(post => { %>
+                    <a
+                        href="/<%= post.slug %>"
+                        class="flex flex-col bg-neutral-100 overflow-hidden group hover:bg-neutral-200 transition-colors h-full"
+                    >
+                        <div class="aspect-[16/9] relative overflow-hidden bg-neutral-200">
+                            <img
+                                src="<%= post.imageUrl || '/images/admissions/events.jpg' %>"
+                                alt="<%= post.title %>"
+                                class="object-cover group-hover:scale-105 transition-transform duration-500 w-full h-full"
+                            />
+                            <div class="absolute top-4 left-4">
+                                <span class="px-3 py-1 text-[10px] font-bold uppercase tracking-widest bg-black text-white">
+                                    Blog
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="p-6 flex flex-col flex-1">
+                            <div class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-3">
+                                <span><%= formatToDDMMYYYY(post.publishDate) %></span>
+                            </div>
+
+                            <h2 class="text-xl font-bold mb-3 text-neutral-900 group-hover:underline leading-tight">
+                                <%= post.title %>
+                            </h2>
+
+                            <p class="text-neutral-600 text-sm line-clamp-3 mb-4">
+                                <%= post.excerpt || post.content.replace(/<[^>]*>/g, '').slice(0, 150) %>...
+                            </p>
+
+                            <% if (post.tags && post.tags.length > 0) { %>
+                                <div class="flex flex-wrap gap-1 mb-3">
+                                    <% post.tags.slice(0, 3).forEach(tag => { %>
+                                        <a
+                                            href="/?tag=<%= encodeURIComponent(tag) %>"
+                                            class="inline-block bg-black text-white text-xs px-2 py-1 rounded-full capitalize"
+                                        >
+                                            <%= tag %>
+                                        </a>
+                                    <% }); %>
+                                </div>
+                            <% } %>
+
+                            <div class="mt-auto flex items-center text-xs font-bold uppercase tracking-wider text-black">
+                                Read more →
+                            </div>
+                        </div>
+                    </a>
+                <% }); %>
+            </div>
+
+            <% if (totalPages > 1) { %>
+                <div class="flex justify-center items-center gap-4 mt-12">
+                    <% if (currentPage > 1) { %>
+                        <a
+                            href="?page=<%= currentPage - 1 %><%= tag ? '&tag=' + encodeURIComponent(tag) : '' %>"
+                            class="flex items-center gap-2 px-4 py-2 border border-neutral-300 hover:bg-neutral-50 transition-colors"
+                        >
+                            ← Previous
+                        </a>
+                    <% } %>
+
+                    <div class="flex gap-2">
+                        <% for (let i = 1; i <= totalPages; i++) { %>
+                            <a
+                                href="?page=<%= i %><%= tag ? '&tag=' + encodeURIComponent(tag) : '' %>"
+                                class="px-3 py-2 border transition-colors <%= currentPage === i ? 'bg-black text-white border-black' : 'border-neutral-300 hover:bg-neutral-50' %>"
+                            >
+                                <%= i %>
+                            </a>
+                        <% } %>
+                    </div>
+
+                    <% if (currentPage < totalPages) { %>
+                        <a
+                            href="?page=<%= currentPage + 1 %><%= tag ? '&tag=' + encodeURIComponent(tag) : '' %>"
+                            class="flex items-center gap-2 px-4 py-2 border border-neutral-300 hover:bg-neutral-50 transition-colors"
+                        >
+                            Next →
+                        </a>
+                    <% } %>
+                </div>
+            <% } %>
+        <% } %>
+
+        <!-- Related Links -->
+        <div class="mt-16 pt-10">
+            <h3 class="text-sm font-bold uppercase tracking-widest text-neutral-900 mb-6">Related Links</h3>
+            <div class="grid md:grid-cols-3 gap-4">
+                <a href="/admissions/application-process" class="bg-neutral-50 p-5 rounded-xl hover:bg-neutral-100 transition-colors group">
+                    <h4 class="font-bold text-neutral-900 mb-1 group-hover:underline text-sm">How to Apply</h4>
+                    <p class="text-xs text-neutral-500">Step-by-step application guide.</p>
+                </a>
+                <a href="/studies" class="bg-neutral-50 p-5 rounded-xl hover:bg-neutral-100 transition-colors group">
+                    <h4 class="font-bold text-neutral-900 mb-1 group-hover:underline text-sm">Explore Programmes</h4>
+                    <p class="text-xs text-neutral-500">Browse all degree programmes.</p>
+                </a>
+                <a href="/student-guide/international" class="bg-neutral-50 p-5 rounded-xl hover:bg-neutral-100 transition-colors group">
+                    <h4 class="font-bold text-neutral-900 mb-1 group-hover:underline text-sm">International Students</h4>
+                    <p class="text-xs text-neutral-500">Visa, housing, and arrival info.</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
