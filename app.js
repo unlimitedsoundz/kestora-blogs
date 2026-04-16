@@ -13,16 +13,25 @@ app.set('views', path.join(__dirname, 'views'));
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// Static file serving with logging
-app.use('/css', express.static(path.join(__dirname, 'public', 'css'), {
-  setHeaders: (res, path) => {
-    if (path.endsWith('.css')) {
-      res.setHeader('Content-Type', 'text/css');
-      console.log(`Serving CSS file: ${path}`);
-    }
-  }
-}));
+// Static file serving
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Explicit CSS serving route (fallback if static middleware fails)
+app.get('/css/output.css', (req, res) => {
+  const fs = require('fs');
+  const cssPath = path.join(__dirname, 'public', 'css', 'output.css');
+
+  if (fs.existsSync(cssPath)) {
+    res.setHeader('Content-Type', 'text/css');
+    res.setHeader('Cache-Control', 'no-cache');
+    const cssContent = fs.readFileSync(cssPath, 'utf8');
+    res.send(cssContent);
+    console.log('CSS served via explicit route');
+  } else {
+    console.log('CSS file not found');
+    res.status(404).send('CSS file not found');
+  }
+});
 
 // Debug routes (before main router to avoid conflicts)
 app.get('/test-css', (req, res) => {
@@ -59,15 +68,16 @@ app.get('/css-check', (req, res) => {
   res.send(`CSS URL: ${cssUrl}<br><a href="${cssUrl}">Test CSS URL</a>`);
 });
 
-// Test static file serving
+// Test CSS serving
 app.get('/static-test', (req, res) => {
   res.send(`
     <h1>Static File Test</h1>
-    <link href="/css/output.css" rel="stylesheet">
-    <div class="bg-blue-500 text-white p-4 m-4">
-      If you see this styled, static files are working!
+    <link href="/css/output.css?v=${Date.now()}" rel="stylesheet">
+    <div class="bg-blue-500 text-white p-4 m-4 rounded">
+      If you see this with blue background, CSS is working!
     </div>
-    <p class="text-red-500">This should be red if CSS loads.</p>
+    <p class="text-red-500 font-bold">This should be red and bold if CSS loads.</p>
+    <p class="text-lg text-green-600">This should be large and green if CSS loads.</p>
   `);
 });
 
