@@ -8,41 +8,116 @@
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 </head>
 <body class="min-h-screen bg-white pt-20">
-    <!-- Navigation Bar - Matching Kestora Main Site -->
-    <nav class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-black">
+    <!-- Header - Exact Match to Kestora Main Site -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-black">
         <div class="container mx-auto px-4 h-20 flex items-center justify-between">
             <!-- Logo -->
             <a href="https://kestora.online/" class="flex items-center">
                 <img src="/images/logo-kestora.png" alt="Kestora University" class="h-14 md:h-16" />
             </a>
 
-            <!-- Navigation Links -->
+            <!-- Desktop Navigation -->
             <nav class="hidden lg:flex items-center gap-4">
-                <a href="https://kestora.online/" class="text-sm font-bold uppercase tracking-wider text-[#2d2d2d] hover:opacity-70 transition-colors">Home</a>
-                <a href="https://kestora.online/about-kestora-university" class="text-sm font-bold uppercase tracking-wider text-[#2d2d2d] hover:opacity-70 transition-colors">About</a>
-                <a href="https://kestora.online/studies" class="text-sm font-bold uppercase tracking-wider text-[#2d2d2d] hover:opacity-70 transition-colors">Studies</a>
+                <!-- Kestora Dropdown -->
+                <div class="relative group h-20 flex items-center">
+                    <a href="#" class="text-sm font-bold uppercase tracking-wider flex items-center gap-1 text-[#2d2d2d] hover:opacity-70 transition-colors">
+                        Kestora
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </a>
+                    <div class="absolute top-20 left-0 w-64 border border-black shadow-none hidden group-hover:block bg-white">
+                        <a href="https://kestora.online/student-guide" class="block px-6 py-4 text-base font-medium text-[#2d2d2d] hover:bg-black/5">Student Guide</a>
+                        <a href="https://kestora.online/student-guide/international" class="block px-6 py-4 text-base font-medium text-[#2d2d2d] hover:bg-black/5">International Students</a>
+                        <a href="https://ourblogs.kestora.online" class="block px-6 py-4 text-base font-medium text-[#2d2d2d] hover:bg-black/5">Kestora Student Ambassadors</a>
+                        <a href="https://kestora.online/news" class="block px-6 py-4 text-base font-medium text-[#2d2d2d] hover:bg-black/5">News and Events</a>
+                        <a href="https://kestora.online/student-guide#calendar" class="block px-6 py-4 text-base font-medium text-[#2d2d2d] hover:bg-black/5">Academic Calendar</a>
+                        <a href="https://kestora.online/student-guide#support" class="block px-6 py-4 text-base font-medium text-[#2d2d2d] hover:bg-black/5">Support Services</a>
+                    </div>
+                </div>
+
+                <!-- Schools Mega Menu -->
+                <div class="relative group h-20 flex items-center">
+                    <a href="https://kestora.online/schools" class="text-sm font-bold uppercase tracking-wider flex items-center gap-1 text-[#2d2d2d] hover:opacity-70 transition-colors">
+                        Schools
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </a>
+                    <div class="absolute top-20 left-0 w-[600px] max-h-[80vh] overflow-y-auto border border-black shadow-none hidden group-hover:block p-0 bg-white">
+                        <div class="flex">
+                            <!-- Schools Section -->
+                            <div class="flex-1">
+                                <div class="bg-neutral-50 px-6 py-3 font-bold uppercase text-base tracking-wider text-black">Schools</div>
+                                <div class="p-2">
+                                    <a href="https://kestora.online/schools/arts" class="block px-4 py-2 text-base text-[#2d2d2d] hover:underline">School of Arts</a>
+                                    <a href="https://kestora.online/schools/business" class="block px-4 py-2 text-base text-[#2d2d2d] hover:underline">School of Business</a>
+                                    <a href="https://kestora.online/schools/science" class="block px-4 py-2 text-base text-[#2d2d2d] hover:underline">School of Science</a>
+                                    <a href="https://kestora.online/schools/technology" class="block px-4 py-2 text-base text-[#2d2d2d] hover:underline">School of Technology</a>
+                                </div>
+                            </div>
+                            <!-- Departments Section -->
+                            <div class="flex-1 border-l border-neutral-200">
+                                <div class="bg-neutral-50 px-6 py-3 font-bold uppercase text-base tracking-wider text-black">Departments</div>
+                                <div class="p-2 grid grid-cols-1 gap-1">
+                                    <a href="https://kestora.online/schools/business/accounting-business-law" class="block px-4 py-2 text-base text-[#2d2d2d] hover:underline text-sm">Accounting & Business Law</a>
+                                    <a href="https://kestora.online/schools/science/physics-math" class="block px-4 py-2 text-base text-[#2d2d2d] hover:underline text-sm">Applied Physics & Mathematics</a>
+                                    <a href="https://kestora.online/schools/arts/architecture" class="block px-4 py-2 text-base text-[#2d2d2d] hover:underline text-sm">Architecture</a>
+                                    <a href="https://kestora.online/schools/business/economics" class="block px-4 py-2 text-base text-[#2d2d2d] hover:underline text-sm">Economics</a>
+                                    <a href="https://kestora.online/schools/business/finance" class="block px-4 py-2 text-base text-[#2d2d2d] hover:underline text-sm">Finance</a>
+                                    <a href="https://kestora.online/schools/business/management" class="block px-4 py-2 text-base text-[#2d2d2d] hover:underline text-sm">Management Studies</a>
+                                    <a href="https://kestora.online/schools/business/marketing" class="block px-4 py-2 text-base text-[#2d2d2d] hover:underline text-sm">Marketing</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Other Navigation Links -->
                 <a href="https://kestora.online/admissions" class="text-sm font-bold uppercase tracking-wider text-[#2d2d2d] hover:opacity-70 transition-colors">Admissions</a>
-                <a href="https://ourblogs.kestora.online" class="text-sm font-bold uppercase tracking-wider text-primary transition-colors">Blog</a>
-                <a href="https://kestora.online/contact" class="text-sm font-bold uppercase tracking-wider text-[#2d2d2d] hover:opacity-70 transition-colors">Contact</a>
+                <a href="https://kestora.online/research" class="text-sm font-bold uppercase tracking-wider text-[#2d2d2d] hover:opacity-70 transition-colors">Research</a>
+                <a href="https://kestora.online/student-life" class="text-sm font-bold uppercase tracking-wider text-[#2d2d2d] hover:opacity-70 transition-colors">Student Life</a>
+                <a href="https://kestora.online/about-kestora-university" class="text-sm font-bold uppercase tracking-wider text-[#2d2d2d] hover:opacity-70 transition-colors">About</a>
             </nav>
 
             <!-- Actions -->
             <div class="hidden lg:flex items-center gap-6">
-                <div class="flex items-center gap-4 pl-6">
-                    <a href="https://kestora.online/admissions/application-process" class="bg-black text-white w-[150px] h-[60px] flex items-center justify-center rounded-full text-xs font-bold tracking-wider hover:bg-neutral-800 transition-colors">
-                        Apply to Kestora
-                    </a>
+                <!-- Search -->
+                <button class="p-2 hover:opacity-70 transition-opacity">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </button>
+
+                <!-- Language Selector -->
+                <div class="flex items-center gap-2 px-3 py-2 border border-neutral-300 hover:border-neutral-400 transition-colors cursor-pointer">
+                    <span class="text-sm font-medium">EN</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
                 </div>
+
+                <!-- Apply Button -->
+                <a href="https://kestora.online/admissions/application-process" class="bg-black text-white w-[150px] h-[60px] flex items-center justify-center rounded-full text-xs font-bold tracking-wider hover:bg-neutral-800 transition-colors">
+                    Apply to Kestora
+                </a>
             </div>
 
             <!-- Mobile Menu Button -->
-            <button class="lg:hidden p-2">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                </svg>
-            </button>
+            <div class="lg:hidden flex items-center gap-2">
+                <button class="p-2 hover:opacity-70 transition-opacity">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </button>
+                <button class="p-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
         </div>
-    </nav>
+    </header>
     <%- body %>
 
     <script>
