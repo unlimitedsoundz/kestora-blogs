@@ -50,16 +50,41 @@ router.get('/', async (req, res) => {
     const { count } = await countQuery;
     const totalPages = Math.ceil(count / postsPerPage);
 
-    res.render('blog/index', {
+    // Render the blog content
+    const ejs = require('ejs');
+    const fs = require('fs');
+    const path = require('path');
+
+    const blogContent = await ejs.renderFile(path.join(__dirname, '../views/blog/index.ejs'), {
       posts: posts || [],
       currentPage: page,
       totalPages,
       tag,
       formatToDDMMYYYY
     });
+
+    const fullPage = await ejs.renderFile(path.join(__dirname, '../views/layouts/main.ejs'), {
+      title: tag ? `Blog - ${tag}` : 'Kestora Blog',
+      body: blogContent
+    });
+
+    res.send(fullPage);
   } catch (error) {
     console.error('Error fetching blog posts:', error);
-    res.status(500).render('error', { message: 'Error loading blog posts', status: 500 });
+    const ejs = require('ejs');
+    const path = require('path');
+
+    const errorContent = await ejs.renderFile(path.join(__dirname, '../views/error.ejs'), {
+      message: 'Error loading blog posts',
+      status: 500
+    });
+
+    const fullPage = await ejs.renderFile(path.join(__dirname, '../views/layouts/main.ejs'), {
+      title: 'Error | Kestora Blog',
+      body: errorContent
+    });
+
+    res.status(500).send(fullPage);
   }
 });
 
@@ -76,7 +101,20 @@ router.get('/:slug', async (req, res) => {
       .single();
 
     if (error || !post) {
-      return res.status(404).render('error', { message: 'Blog post not found', status: 404 });
+      const ejs = require('ejs');
+      const path = require('path');
+
+      const errorContent = await ejs.renderFile(path.join(__dirname, '../views/error.ejs'), {
+        message: 'Blog post not found',
+        status: 404
+      });
+
+      const fullPage = await ejs.renderFile(path.join(__dirname, '../views/layouts/main.ejs'), {
+        title: 'Post Not Found | Kestora Blog',
+        body: errorContent
+      });
+
+      return res.status(404).send(fullPage);
     }
 
     // Get other blogs for "Keep Reading"
@@ -108,16 +146,41 @@ router.get('/:slug', async (req, res) => {
       }
     }
 
-    res.render('blog/post', {
+    // Render the blog content
+    const ejs = require('ejs');
+    const fs = require('fs');
+    const path = require('path');
+
+    const blogContent = await ejs.renderFile(path.join(__dirname, '../views/blog/post.ejs'), {
       post,
       otherBlogs: otherBlogs || [],
       prevBlog,
       nextBlog,
       formatToDDMMYYYY
     });
+
+    const fullPage = await ejs.renderFile(path.join(__dirname, '../views/layouts/main.ejs'), {
+      title: `${post.title} | Kestora Blog`,
+      body: blogContent
+    });
+
+    res.send(fullPage);
   } catch (error) {
     console.error('Error fetching blog post:', error);
-    res.status(500).render('error', { message: 'Error loading blog post', status: 500 });
+    const ejs = require('ejs');
+    const path = require('path');
+
+    const errorContent = await ejs.renderFile(path.join(__dirname, '../views/error.ejs'), {
+      message: 'Error loading blog post',
+      status: 500
+    });
+
+    const fullPage = await ejs.renderFile(path.join(__dirname, '../views/layouts/main.ejs'), {
+      title: 'Error | Kestora Blog',
+      body: errorContent
+    });
+
+    res.status(500).send(fullPage);
   }
 });
 
