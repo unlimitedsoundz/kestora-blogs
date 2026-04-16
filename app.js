@@ -15,10 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Routes
-app.use('/', indexRouter);
-
-// Debug routes
+// Debug routes (before main router to avoid conflicts)
 app.get('/test-css', (req, res) => {
   const fs = require('fs');
   const path = require('path');
@@ -32,7 +29,6 @@ app.get('/test-css', (req, res) => {
   }
 });
 
-// Direct CSS serving route
 app.get('/css-direct', (req, res) => {
   const fs = require('fs');
   const path = require('path');
@@ -45,6 +41,9 @@ app.get('/css-direct', (req, res) => {
     res.status(404).send('CSS file not found');
   }
 });
+
+// Routes
+app.use('/', indexRouter);
 
 // Error handling
 app.use((req, res) => {
