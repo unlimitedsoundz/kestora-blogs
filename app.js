@@ -65,7 +65,22 @@ app.get('/css-check', (req, res) => {
   const protocol = req.protocol;
   const host = req.get('host');
   const cssUrl = `${protocol}://${host}/css/output.css`;
-  res.send(`CSS URL: ${cssUrl}<br><a href="${cssUrl}">Test CSS URL</a>`);
+  res.send(`CSS URL: ${cssUrl}<br><a href="${cssUrl}">Test CSS URL</a><br><a href="/css-content">View CSS Content</a>`);
+});
+
+// View CSS content directly
+app.get('/css-content', (req, res) => {
+  const fs = require('fs');
+  const path = require('path');
+  const cssPath = path.join(__dirname, 'public', 'css', 'output.css');
+
+  try {
+    const cssContent = fs.readFileSync(cssPath, 'utf8');
+    res.setHeader('Content-Type', 'text/plain');
+    res.send(`CSS File Size: ${cssContent.length} characters\n\nFirst 500 chars:\n${cssContent.substring(0, 500)}`);
+  } catch (error) {
+    res.status(500).send(`Error reading CSS: ${error.message}`);
+  }
 });
 
 // Test CSS serving
