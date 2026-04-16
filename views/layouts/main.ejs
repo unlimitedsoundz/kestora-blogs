@@ -8,14 +8,41 @@
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 </head>
 <body class="min-h-screen bg-white pt-20">
-    <!-- Simple Logo Header -->
-    <header class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-black">
-        <div class="container mx-auto px-4 h-20 flex items-center justify-center">
+    <!-- Navigation Bar - Matching Kestora Main Site -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-black">
+        <div class="container mx-auto px-4 h-20 flex items-center justify-between">
+            <!-- Logo -->
             <a href="https://kestora.online/" class="flex items-center">
-                <img src="/images/logo-kestora.png" alt="Kestora University" class="h-16 md:h-20" />
+                <img src="/images/logo-kestora.png" alt="Kestora University" class="h-14 md:h-16" />
             </a>
+
+            <!-- Navigation Links -->
+            <nav class="hidden lg:flex items-center gap-4">
+                <a href="https://kestora.online/" class="text-sm font-bold uppercase tracking-wider text-[#2d2d2d] hover:opacity-70 transition-colors">Home</a>
+                <a href="https://kestora.online/about-kestora-university" class="text-sm font-bold uppercase tracking-wider text-[#2d2d2d] hover:opacity-70 transition-colors">About</a>
+                <a href="https://kestora.online/studies" class="text-sm font-bold uppercase tracking-wider text-[#2d2d2d] hover:opacity-70 transition-colors">Studies</a>
+                <a href="https://kestora.online/admissions" class="text-sm font-bold uppercase tracking-wider text-[#2d2d2d] hover:opacity-70 transition-colors">Admissions</a>
+                <a href="https://ourblogs.kestora.online" class="text-sm font-bold uppercase tracking-wider text-primary transition-colors">Blog</a>
+                <a href="https://kestora.online/contact" class="text-sm font-bold uppercase tracking-wider text-[#2d2d2d] hover:opacity-70 transition-colors">Contact</a>
+            </nav>
+
+            <!-- Actions -->
+            <div class="hidden lg:flex items-center gap-6">
+                <div class="flex items-center gap-4 pl-6">
+                    <a href="https://kestora.online/admissions/application-process" class="bg-black text-white w-[150px] h-[60px] flex items-center justify-center rounded-full text-xs font-bold tracking-wider hover:bg-neutral-800 transition-colors">
+                        Apply to Kestora
+                    </a>
+                </div>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button class="lg:hidden p-2">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
         </div>
-    </header>
+    </nav>
     <%- body %>
 
     <script>
