@@ -55,7 +55,7 @@
         <% if (category) { %>
             <div class="mb-8">
                 <h2 class="text-2xl font-bold mb-4">Posts in category "<%= category %>"</h2>
-                <a href="/blog" class="text-neutral-600 hover:text-black underline">← Back to all posts</a>
+                <a href="/" class="text-neutral-600 hover:text-black underline">← Back to all posts</a>
             </div>
         <% } %>
 
@@ -64,15 +64,15 @@
             <div class="mb-8">
                 <h3 class="text-lg font-bold mb-4">Filter by Category</h3>
                 <div class="flex flex-wrap gap-2">
-                    <a
-                        href="/blog"
-                        class="inline-block bg-neutral-200 text-neutral-700 text-sm px-3 py-1 rounded-full capitalize <%= !category ? 'bg-black text-white' : 'hover:bg-neutral-300' %> transition-colors"
-                    >
-                        All Posts
-                    </a>
+            <a
+                href="/"
+                class="inline-block bg-neutral-200 text-neutral-700 text-sm px-3 py-1 rounded-full capitalize <%= !category ? 'bg-black text-white' : 'hover:bg-neutral-300' %> transition-colors"
+            >
+                All Posts
+            </a>
                     <% categories.forEach(cat => { %>
                         <a
-                            href="/blog?category=<%= encodeURIComponent(cat) %>"
+                            href="/?category=<%= encodeURIComponent(cat) %>"
                             class="inline-block bg-neutral-200 text-neutral-700 text-sm px-3 py-1 rounded-full capitalize <%= category === cat ? 'bg-black text-white' : 'hover:bg-neutral-300' %> transition-colors"
                         >
                             <%= cat %>
