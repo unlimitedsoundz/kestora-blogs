@@ -59,8 +59,29 @@
             </div>
         <% } %>
 
-        <!-- Category Filter -->
-        <% if (categories && categories.length > 0) { %>
+        <!-- Search and Filter -->
+        <div class="mb-8 space-y-4">
+            <!-- Search Bar -->
+            <div class="max-w-md">
+                <form method="GET" class="flex gap-2">
+                    <input
+                        type="text"
+                        name="search"
+                        value="<%= search || '' %>"
+                        placeholder="Search blog posts..."
+                        class="flex-1 px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent"
+                    />
+                    <% if (category) { %>
+                        <input type="hidden" name="category" value="<%= category %>" />
+                    <% } %>
+                    <button type="submit" class="px-6 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors">
+                        Search
+                    </button>
+                </form>
+            </div>
+
+            <!-- Category Filter -->
+            <% if (categories && categories.length > 0) { %>
             <div class="mb-8">
                 <h3 class="text-lg font-bold mb-4">Filter by Category</h3>
                 <div class="flex flex-wrap gap-2">
@@ -117,8 +138,11 @@
                                 <%= post.title %>
                             </h2>
 
-                            <p class="text-neutral-600 text-sm line-clamp-3 mb-4">
-                                <%= post.excerpt || post.content.replace(/<[^>]*>/g, '').slice(0, 150) %>...
+                            <p class="text-neutral-600 text-sm mb-4">
+                                <%= post.excerpt || post.content.replace(/<[^>]*>/g, '').substring(0, 300) %>
+                                <% if ((post.excerpt || post.content.replace(/<[^>]*>/g, '')).length > 300) { %>
+                                    ...
+                                <% } %>
                             </p>
 
                             <% if (post.categories && post.categories.length > 0) { %>
@@ -142,36 +166,17 @@
                 <% }); %>
             </div>
 
-            <% if (totalPages > 1) { %>
-                <div class="flex justify-center items-center gap-4 mt-12">
-                    <% if (currentPage > 1) { %>
-                        <a
-                            href="?page=<%= currentPage - 1 %><%= category ? '&category=' + encodeURIComponent(category) : '' %>"
-                            class="flex items-center gap-2 px-4 py-2 border border-neutral-300 hover:bg-neutral-50 transition-colors"
-                        >
-                            ← Previous
-                        </a>
-                    <% } %>
-
-                    <div class="flex gap-2">
-                        <% for (let i = 1; i <= totalPages; i++) { %>
-                            <a
-                                href="?page=<%= i %><%= category ? '&category=' + encodeURIComponent(category) : '' %>"
-                                class="px-3 py-2 border transition-colors <%= currentPage === i ? 'bg-black text-white border-black' : 'border-neutral-300 hover:bg-neutral-50' %>"
-                            >
-                                <%= i %>
-                            </a>
-                        <% } %>
-                    </div>
-
-                    <% if (currentPage < totalPages) { %>
-                        <a
-                            href="?page=<%= currentPage + 1 %><%= category ? '&category=' + encodeURIComponent(category) : '' %>"
-                            class="flex items-center gap-2 px-4 py-2 border border-neutral-300 hover:bg-neutral-50 transition-colors"
-                        >
-                            Next →
-                        </a>
-                    <% } %>
+            <% if (hasMorePosts) { %>
+                <div class="flex justify-center mt-12">
+                    <button
+                        id="load-more-btn"
+                        class="bg-black text-white px-8 py-3 font-medium hover:bg-gray-800 transition-colors"
+                        data-offset="<%= currentOffset + posts.length %>"
+                        data-category="<%= category || '' %>"
+                        data-search="<%= search || '' %>"
+                    >
+                        Load More
+                    </button>
                 </div>
             <% } %>
         <% } %>

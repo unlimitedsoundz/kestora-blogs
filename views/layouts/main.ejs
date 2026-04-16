@@ -246,7 +246,98 @@
     </footer>
 
     <script>
-        // Add any client-side JavaScript here
+        // Load More functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadMoreBtn = document.getElementById('load-more-btn');
+            if (loadMoreBtn) {
+                loadMoreBtn.addEventListener('click', async function() {
+                    const offset = parseInt(this.getAttribute('data-offset'));
+                    const category = this.getAttribute('data-category');
+                    const search = this.getAttribute('data-search');
+
+                    this.textContent = 'Loading...';
+                    this.disabled = true;
+
+                    try {
+                        let url = `/api/posts?offset=${offset}&limit=3`;
+                        if (category) url += `&category=${encodeURIComponent(category)}`;
+                        if (search) url += `&search=${encodeURIComponent(search)}`;
+
+                        const response = await fetch(url);
+                        const data = await response.json();
+
+                        if (data.posts && data.posts.length > 0) {
+                            const postsGrid = document.querySelector('.grid.md\\:grid-cols-2.lg\\:grid-cols-3');
+                            const postTemplate = document.querySelector('.grid.md\\:grid-cols-2.lg\\:grid-cols-3 > a');
+
+                            data.posts.forEach(post => {
+                                const postElement = createPostElement(post);
+                                postsGrid.appendChild(postElement);
+                            });
+
+                            // Update offset for next load
+                            this.setAttribute('data-offset', offset + data.posts.length);
+
+                            // Hide button if no more posts
+                            if (data.posts.length < 3) {
+                                this.style.display = 'none';
+                            }
+                        } else {
+                            this.style.display = 'none';
+                        }
+                    } catch (error) {
+                        console.error('Error loading more posts:', error);
+                        this.textContent = 'Error loading posts';
+                        setTimeout(() => {
+                            this.textContent = 'Load More';
+                            this.disabled = false;
+                        }, 2000);
+                    } finally {
+                        if (!this.disabled) {
+                            this.textContent = 'Load More';
+                            this.disabled = false;
+                        }
+                    }
+                });
+            }
+        });
+
+        function createPostElement(post) {
+            const postDiv = document.createElement('a');
+            postDiv.href = `/${post.slug}`;
+            postDiv.className = 'flex flex-col bg-neutral-100 overflow-hidden group hover:bg-neutral-200 transition-colors h-full';
+
+            const date = new Date(post.publishDate);
+            const formattedDate = `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()}`;
+
+            postDiv.innerHTML = `
+                <div class="aspect-[16/9] relative overflow-hidden bg-neutral-200">
+                    <img src="${post.imageUrl || '/images/admissions/events.jpg'}" alt="${post.title}" class="object-cover group-hover:scale-105 transition-transform duration-500 w-full h-full" />
+                    <div class="absolute top-4 left-4">
+                        <span class="px-3 py-1 text-[10px] font-bold uppercase tracking-widest bg-black text-white">Blog</span>
+                    </div>
+                </div>
+                <div class="p-6 flex flex-col flex-1">
+                    <div class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-3">
+                        <span>${formattedDate}</span>
+                    </div>
+                    <h2 class="text-xl font-bold mb-3 text-neutral-900 group-hover:underline leading-tight">${post.title}</h2>
+                    <p class="text-neutral-600 text-sm mb-4">${(post.excerpt || post.content.replace(/<[^>]*>/g, '').substring(0, 300))}${((post.excerpt || post.content.replace(/<[^>]*>/g, '')).length > 300) ? '...' : ''}</p>
+                    ${post.categories && post.categories.length > 0 ? `
+                    <div class="flex flex-wrap gap-1 mb-3">
+                        ${post.categories.slice(0, 3).map(category => `
+                            <a href="/?category=${encodeURIComponent(category)}" class="inline-block bg-black text-white text-xs px-2 py-1 rounded-full capitalize">${category}</a>
+                        `).join('')}
+                    </div>
+                    ` : ''}
+                    <div class="mt-auto flex items-center text-xs font-bold uppercase tracking-wider text-black">
+                        Read more →
+                    </div>
+                </div>
+            `;
+
+            return postDiv;
+        }
     </script>
 </body>
 </html>

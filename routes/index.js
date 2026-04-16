@@ -15,12 +15,46 @@ function formatToDDMMYYYY(dateString) {
   return `${day}/${month}/${year}`;
 }
 
+// API endpoint for loading more posts
+router.get('/api/posts', async (req, res) => {
+  try {
+    const category = req.query.category;
+    const search = req.query.search;
+    const offset = parseInt(req.query.offset) || 0;
+    const limit = parseInt(req.query.limit) || 3;
+
+    let query = supabase
+      .from('blogs')
+      .select('*')
+      .eq('published', true)
+      .order('publishDate', { ascending: false });
+
+    if (category) {
+      query = query.contains('categories', category);
+    }
+
+    if (search) {
+      query = query.or(`title.ilike.%${search}%,content.ilike.%${search}%,excerpt.ilike.%${search}%`);
+    }
+
+    const { data: posts, error } = await query.range(offset, offset + limit - 1);
+
+    if (error) throw error;
+
+    res.json({ posts: posts || [] });
+  } catch (error) {
+    console.error('Error fetching more posts:', error);
+    res.status(500).json({ error: 'Error loading posts' });
+  }
+});
+
 // Blog list page
 router.get('/', async (req, res) => {
   try {
     const category = req.query.category;
+    const search = req.query.search;
     const page = parseInt(req.query.page) || 1;
-    const postsPerPage = 9;
+    const postsPerPage = 6; // Show 6 initially
     const offset = (page - 1) * postsPerPage;
 
     let query = supabase
@@ -33,11 +67,15 @@ router.get('/', async (req, res) => {
       query = query.contains('categories', category);
     }
 
+    if (search) {
+      query = query.or(`title.ilike.%${search}%,content.ilike.%${search}%,excerpt.ilike.%${search}%`);
+    }
+
     const { data: posts, error } = await query.range(offset, offset + postsPerPage - 1);
 
     if (error) throw error;
 
-    // Get total count for pagination
+    // Get total count
     let countQuery = supabase
       .from('blogs')
       .select('*', { count: 'exact', head: true })
@@ -47,8 +85,12 @@ router.get('/', async (req, res) => {
       countQuery = countQuery.contains('categories', category);
     }
 
+    if (search) {
+      countQuery = countQuery.or(`title.ilike.%${search}%,content.ilike.%${search}%,excerpt.ilike.%${search}%`);
+    }
+
     const { count } = await countQuery;
-    const totalPages = Math.ceil(count / postsPerPage);
+    const hasMorePosts = count > postsPerPage;
 
     // Get all unique categories for filtering
     const { data: allBlogs } = await supabase
@@ -73,15 +115,16 @@ router.get('/', async (req, res) => {
 
     const blogContent = await ejs.renderFile(path.join(__dirname, '../views/blog/index.ejs'), {
       posts: posts || [],
-      currentPage: page,
-      totalPages,
+      currentOffset: offset,
+      hasMorePosts,
       category,
       categories,
+      search,
       formatToDDMMYYYY
     });
 
     const fullPage = await ejs.renderFile(path.join(__dirname, '../views/layouts/main.ejs'), {
-      title: category ? `Blog - ${category} | Kestora Blog` : 'Kestora Blog',
+      title: category ? `Blog - ${category} | Kestora Blog` : (search ? `Search: ${search} | Kestora Blog` : 'Kestora Blog'),
       metaDescription: category ? `Read articles about ${category} from Kestora University student ambassadors.` : 'Stories and insights from Kestora University student ambassadors sharing their experiences studying and living in Finland.',
       ogImage: null,
       body: blogContent
