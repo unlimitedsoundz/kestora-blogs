@@ -18,7 +18,7 @@ function formatToDDMMYYYY(dateString) {
 // Blog list page
 router.get('/', async (req, res) => {
   try {
-    const tag = req.query.tag;
+    const category = req.query.category;
     const page = parseInt(req.query.page) || 1;
     const postsPerPage = 9;
     const offset = (page - 1) * postsPerPage;
@@ -29,8 +29,8 @@ router.get('/', async (req, res) => {
       .eq('published', true)
       .order('publishDate', { ascending: false });
 
-    if (tag) {
-      query = query.contains('tags', tag);
+    if (category) {
+      query = query.contains('categories', category);
     }
 
     const { data: posts, error } = await query.range(offset, offset + postsPerPage - 1);
@@ -43,12 +43,28 @@ router.get('/', async (req, res) => {
       .select('*', { count: 'exact', head: true })
       .eq('published', true);
 
-    if (tag) {
-      countQuery = countQuery.contains('tags', tag);
+    if (category) {
+      countQuery = countQuery.contains('categories', category);
     }
 
     const { count } = await countQuery;
     const totalPages = Math.ceil(count / postsPerPage);
+
+    // Get all unique categories for filtering
+    const { data: allBlogs } = await supabase
+      .from('blogs')
+      .select('categories')
+      .eq('published', true);
+
+    const categoriesSet = new Set();
+    if (allBlogs) {
+      allBlogs.forEach(blog => {
+        if (blog.categories && Array.isArray(blog.categories)) {
+          blog.categories.forEach(cat => categoriesSet.add(cat));
+        }
+      });
+    }
+    const categories = Array.from(categoriesSet).sort();
 
     // Render the blog content
     const ejs = require('ejs');
@@ -59,12 +75,13 @@ router.get('/', async (req, res) => {
       posts: posts || [],
       currentPage: page,
       totalPages,
-      tag,
+      category,
+      categories,
       formatToDDMMYYYY
     });
 
     const fullPage = await ejs.renderFile(path.join(__dirname, '../views/layouts/main.ejs'), {
-      title: tag ? `Blog - ${tag}` : 'Kestora Blog',
+      title: category ? `Blog - ${category}` : 'Kestora Blog',
       body: blogContent
     });
 

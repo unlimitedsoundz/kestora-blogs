@@ -66,21 +66,21 @@
             <%- post.content %>
         </div>
 
-        <!-- Tags -->
+        <!-- Categories -->
         <div class="mt-12 pt-8">
             <div class="flex flex-wrap gap-2">
-                <% (post.tags && post.tags.length > 0 ? post.tags : [
+                <% (post.categories && post.categories.length > 0 ? post.categories : [
                     'Student Life',
                     'Finland',
                     'University',
                     'Education',
                     'International Students'
-                ]).forEach(tag => { %>
+                ]).forEach(category => { %>
                     <a
-                        href="/?tag=<%= encodeURIComponent(tag) %>"
+                        href="/blog?category=<%= encodeURIComponent(category) %>"
                         class="inline-block bg-black text-white text-xs font-medium px-3 py-1 rounded-md uppercase tracking-wide hover:bg-gray-800 transition-colors"
                     >
-                        <%= tag %>
+                        <%= category %>
                     </a>
                 <% }); %>
             </div>
