@@ -18,6 +18,34 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Routes
 app.use('/', indexRouter);
 
+// Debug routes
+app.get('/test-css', (req, res) => {
+  const fs = require('fs');
+  const path = require('path');
+  const cssPath = path.join(__dirname, 'public', 'css', 'output.css');
+
+  if (fs.existsSync(cssPath)) {
+    const stats = fs.statSync(cssPath);
+    res.send(`CSS file exists! Size: ${stats.size} bytes<br>Last modified: ${stats.mtime}`);
+  } else {
+    res.send('CSS file NOT found!');
+  }
+});
+
+// Direct CSS serving route
+app.get('/css-direct', (req, res) => {
+  const fs = require('fs');
+  const path = require('path');
+  const cssPath = path.join(__dirname, 'public', 'css', 'output.css');
+
+  if (fs.existsSync(cssPath)) {
+    res.setHeader('Content-Type', 'text/css');
+    res.sendFile(cssPath);
+  } else {
+    res.status(404).send('CSS file not found');
+  }
+});
+
 // Error handling
 app.use((req, res) => {
   res.status(404).render('error', { message: 'Page not found', status: 404 });

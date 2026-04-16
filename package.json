@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm run build && node index.js",
     "dev": "npm run build && node index.js",
-    "build": "tailwindcss -i ./public/css/styles.css -o ./public/css/output.css",
+    "build": "echo 'Building CSS...' && tailwindcss -i ./public/css/styles.css -o ./public/css/output.css && echo 'CSS build complete!'",
     "build-css": "tailwindcss -i ./public/css/styles.css -o ./public/css/output.css --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
