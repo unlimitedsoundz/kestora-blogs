@@ -10,10 +10,7 @@
     "build-css": "tailwindcss -i ./public/css/styles.css -o ./public/css/output.css --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "engines": {
-    "node": ">=20.0.0",
-    "npm": ">=10.0.0"
-  },
+
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -23,7 +20,7 @@
     "ckeditor5": "^48.0.0",
     "dotenv": "^17.4.2",
     "ejs": "^5.0.2",
-    "express": "^5.2.1"
+    "express": "^4.19.2"
   },
   "devDependencies": {
     "autoprefixer": "^10.5.0",
