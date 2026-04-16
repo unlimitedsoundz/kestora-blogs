@@ -42,6 +42,14 @@ app.get('/css-direct', (req, res) => {
   }
 });
 
+// Check CSS URL resolution
+app.get('/css-check', (req, res) => {
+  const protocol = req.protocol;
+  const host = req.get('host');
+  const cssUrl = `${protocol}://${host}/css/output.css`;
+  res.send(`CSS URL: ${cssUrl}<br><a href="${cssUrl}">Test CSS URL</a>`);
+});
+
 // Routes
 app.use('/', indexRouter);
 
