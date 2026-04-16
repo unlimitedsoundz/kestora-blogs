@@ -81,7 +81,9 @@ router.get('/', async (req, res) => {
     });
 
     const fullPage = await ejs.renderFile(path.join(__dirname, '../views/layouts/main.ejs'), {
-      title: category ? `Blog - ${category}` : 'Kestora Blog',
+      title: category ? `Blog - ${category} | Kestora Blog` : 'Kestora Blog',
+      metaDescription: category ? `Read articles about ${category} from Kestora University student ambassadors.` : 'Stories and insights from Kestora University student ambassadors sharing their experiences studying and living in Finland.',
+      ogImage: null,
       body: blogContent
     });
 
@@ -177,7 +179,9 @@ router.get('/:slug', async (req, res) => {
     });
 
     const fullPage = await ejs.renderFile(path.join(__dirname, '../views/layouts/main.ejs'), {
-      title: `${post.title} | Kestora Blog`,
+      title: post.meta_title || `${post.title} | Kestora Blog`,
+      metaDescription: post.meta_description || post.excerpt,
+      ogImage: post.og_image || post.imageUrl,
       body: blogContent
     });
 
