@@ -83,6 +83,26 @@ app.get('/css-content', (req, res) => {
   }
 });
 
+// Check HTML output
+app.get('/html-test', (req, res) => {
+  const ejs = require('ejs');
+  const path = require('path');
+
+  const templatePath = path.join(__dirname, 'views', 'layouts', 'main.ejs');
+  const fs = require('fs');
+
+  try {
+    const template = fs.readFileSync(templatePath, 'utf8');
+    const html = ejs.render(template, {
+      title: 'HTML Test Page',
+      body: '<h1>HTML Test</h1><p>If you see this, EJS is working!</p>'
+    });
+    res.send(html);
+  } catch (error) {
+    res.status(500).send(`Error: ${error.message}`);
+  }
+});
+
 // Test CSS serving
 app.get('/static-test', (req, res) => {
   res.send(`
