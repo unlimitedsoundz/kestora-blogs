@@ -1,5 +1,9 @@
 @import '../../node_modules/ckeditor5/dist/ckeditor5.css';
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* ---- Cross-editor content styles. --------------------------------------------------------------- */
 .ck.ck-content:not(.ck-style-grid__button__preview):not(.ck-editor__nested-editable) {
   /* Make sure all content containers have some min height to make them easier to locate. */
