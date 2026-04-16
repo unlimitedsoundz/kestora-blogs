@@ -2,12 +2,17 @@
   "name": "blog-app",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "node app.js",
+    "start": "node server.js",
+    "dev": "node server.js",
+    "build": "tailwindcss -i ./public/css/styles.css -o ./public/css/output.css",
     "build-css": "tailwindcss -i ./public/css/styles.css -o ./public/css/output.css --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
   },
   "keywords": [],
   "author": "",

@@ -29,8 +29,11 @@ app.use((err, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Blog app listening on port ${PORT}`);
 });
+
+// Export for testing
+module.exports = { app, server };
 
 module.exports = app;
