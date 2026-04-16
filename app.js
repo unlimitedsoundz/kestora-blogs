@@ -13,6 +13,15 @@ app.set('views', path.join(__dirname, 'views'));
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+// Static file serving with logging
+app.use('/css', express.static(path.join(__dirname, 'public', 'css'), {
+  setHeaders: (res, path) => {
+    if (path.endsWith('.css')) {
+      res.setHeader('Content-Type', 'text/css');
+      console.log(`Serving CSS file: ${path}`);
+    }
+  }
+}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Debug routes (before main router to avoid conflicts)
@@ -48,6 +57,18 @@ app.get('/css-check', (req, res) => {
   const host = req.get('host');
   const cssUrl = `${protocol}://${host}/css/output.css`;
   res.send(`CSS URL: ${cssUrl}<br><a href="${cssUrl}">Test CSS URL</a>`);
+});
+
+// Test static file serving
+app.get('/static-test', (req, res) => {
+  res.send(`
+    <h1>Static File Test</h1>
+    <link href="/css/output.css" rel="stylesheet">
+    <div class="bg-blue-500 text-white p-4 m-4">
+      If you see this styled, static files are working!
+    </div>
+    <p class="text-red-500">This should be red if CSS loads.</p>
+  `);
 });
 
 // Routes
