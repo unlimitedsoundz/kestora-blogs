@@ -30,7 +30,7 @@ router.get('/api/posts', async (req, res) => {
       .order('publishDate', { ascending: false });
 
     if (category) {
-      query = query.contains('categories', category);
+      query = query.or(`title.ilike.%${category}%,content.ilike.%${category}%,excerpt.ilike.%${category}%`);
     }
 
     if (search) {
@@ -64,7 +64,7 @@ router.get('/', async (req, res) => {
       .order('publishDate', { ascending: false });
 
     if (category) {
-      query = query.contains('categories', category);
+      query = query.or(`title.ilike.%${category}%,content.ilike.%${category}%,excerpt.ilike.%${category}%`);
     }
 
     if (search) {
@@ -82,7 +82,7 @@ router.get('/', async (req, res) => {
       .eq('published', true);
 
     if (category) {
-      countQuery = countQuery.contains('categories', category);
+      countQuery = countQuery.or(`title.ilike.%${category}%,content.ilike.%${category}%,excerpt.ilike.%${category}%`);
     }
 
     if (search) {
@@ -92,10 +92,10 @@ router.get('/', async (req, res) => {
     const { count } = await countQuery;
     const hasMorePosts = count > postsPerPage;
 
-    // Get all unique categories for filtering
+    // Get all unique categories for filtering (Currently disabled as categories column does not exist)
     const { data: allBlogs } = await supabase
       .from('blogs')
-      .select('categories')
+      .select('id')
       .eq('published', true);
 
     const categoriesSet = new Set();
@@ -106,7 +106,13 @@ router.get('/', async (req, res) => {
         }
       });
     }
-    const categories = Array.from(categoriesSet).sort();
+    const categories = [
+      'Student Life',
+      'Finland',
+      'University',
+      'Education',
+      'International Students'
+    ].sort();
 
     // Render the blog content
     const ejs = require('ejs');

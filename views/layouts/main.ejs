@@ -322,7 +322,7 @@
                         <span>${formattedDate}</span>
                     </div>
                     <h2 class="text-xl font-bold mb-3 text-neutral-900 group-hover:underline leading-tight">${post.title}</h2>
-                    <p class="text-neutral-600 text-sm mb-4">${(post.excerpt || post.content.replace(/<[^>]*>/g, '').substring(0, 300))}${((post.excerpt || post.content.replace(/<[^>]*>/g, '')).length > 300) ? '...' : ''}</p>
+                    <p class="text-black text-sm mb-4">${(post.excerpt || post.content.replace(/<[^>]*>/g, '').substring(0, 300))}${((post.excerpt || post.content.replace(/<[^>]*>/g, '')).length > 300) ? '...' : ''}</p>
                     ${post.categories && post.categories.length > 0 ? `
                     <div class="flex flex-wrap gap-1 mb-3">
                         ${post.categories.slice(0, 3).map(category => `
