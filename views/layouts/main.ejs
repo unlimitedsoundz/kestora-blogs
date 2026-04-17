@@ -119,7 +119,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg>
                 </button>
-                <button class="p-2">
+                <button id="mobile-menu-btn" class="p-2">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
@@ -127,6 +127,19 @@
             </div>
         </div>
     </header>
+
+    <!-- Mobile Menu Container -->
+    <div id="mobile-menu" class="hidden fixed top-20 left-0 right-0 bottom-0 bg-white z-40 overflow-y-auto px-4 py-6 border-t border-neutral-200 lg:hidden">
+        <div class="flex flex-col gap-6">
+            <a href="https://kestora.online/schools" class="text-xl font-bold uppercase tracking-wider text-[#2d2d2d]">Schools</a>
+            <a href="https://kestora.online/admissions" class="text-xl font-bold uppercase tracking-wider text-[#2d2d2d]">Admissions</a>
+            <a href="https://kestora.online/research" class="text-xl font-bold uppercase tracking-wider text-[#2d2d2d]">Research</a>
+            <a href="https://kestora.online/student-life" class="text-xl font-bold uppercase tracking-wider text-[#2d2d2d]">Student Life</a>
+            <a href="https://kestora.online/about-kestora-university" class="text-xl font-bold uppercase tracking-wider text-[#2d2d2d]">About</a>
+            <hr class="border-neutral-200">
+            <a href="https://kestora.online/admissions/application-process" class="bg-black text-white px-6 py-4 rounded-full text-center font-bold tracking-wider uppercase">Apply to Kestora</a>
+        </div>
+    </div>
 
     <!-- Hidden utility classes for Tailwind to include -->
     <div class="hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 shadow-lg"></div>
@@ -162,7 +175,7 @@
             </div>
 
             <!-- Link Columns -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-y-12 gap-x-8 mb-16">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-y-10 gap-x-6 mb-12">
 
                 <!-- Study -->
                 <div>
@@ -228,13 +241,13 @@
 
         <!-- Bottom Bar -->
         <div class="border-t border-white/10">
-            <div class="container mx-auto px-4 py-8">
-                <div class="flex flex-col lg:flex-row justify-between items-center gap-6">
-                    <p class="text-neutral-400 text-xs order-2 lg:order-1 text-center lg:text-left">
+            <div class="container mx-auto px-4 py-6">
+                <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                    <p class="text-neutral-500 text-xs order-2 md:order-1 text-center md:text-left">
                         © 2026 Kestora University – Independent higher education institution in Helsinki, Finland. All rights reserved.
                     </p>
-                    <div class="flex flex-wrap justify-center gap-x-8 gap-y-3 order-1 lg:order-2">
-                        <a href="https://kestora.online/site-index" class="text-neutral-400 text-xs hover:text-white transition-colors">Site Index</a>
+                    <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 order-1 md:order-2">
+                        <a href="https://kestora.online/site-index" class="text-neutral-500 text-xs hover:text-white transition-colors">Site Index</a>
                         <a href="https://kestora.online/privacy" class="text-neutral-400 text-xs hover:text-white transition-colors">Privacy Policy</a>
                         <a href="https://kestora.online/terms" class="text-neutral-400 text-xs hover:text-white transition-colors">Terms of Use</a>
                         <a href="https://kestora.online/cookies" class="text-neutral-400 text-xs hover:text-white transition-colors">Cookie Policy</a>
@@ -246,8 +259,18 @@
     </footer>
 
     <script>
-        // Load More functionality
+        // Mobile Menu functionality
         document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                    document.body.classList.toggle('overflow-hidden');
+                });
+            }
+
+            // Load More functionality
             const loadMoreBtn = document.getElementById('load-more-btn');
             if (loadMoreBtn) {
                 loadMoreBtn.addEventListener('click', async function() {
