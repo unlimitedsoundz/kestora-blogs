@@ -87,14 +87,14 @@
                 <div class="flex flex-wrap gap-2">
             <a
                 href="/"
-                class="inline-block bg-neutral-200 text-neutral-700 text-sm px-3 py-1 rounded-full capitalize <%= !category ? 'bg-black text-white' : 'hover:bg-neutral-300' %> transition-colors"
+                class="inline-block text-sm px-4 py-2 rounded-md capitalize transition-colors <%= !category ? 'bg-neutral-800 text-white ring-2 ring-black ring-offset-2' : 'bg-black text-white hover:bg-neutral-800' %>"
             >
                 All Posts
             </a>
                     <% categories.forEach(cat => { %>
                         <a
                             href="/?category=<%= encodeURIComponent(cat) %>"
-                            class="inline-block bg-neutral-200 text-neutral-700 text-sm px-3 py-1 rounded-full capitalize <%= category === cat ? 'bg-black text-white' : 'hover:bg-neutral-300' %> transition-colors"
+                            class="inline-block text-sm px-4 py-2 rounded-md capitalize transition-colors <%= category === cat ? 'bg-neutral-800 text-white ring-2 ring-black ring-offset-2' : 'bg-black text-white hover:bg-neutral-800' %>"
                         >
                             <%= cat %>
                         </a>
@@ -130,7 +130,7 @@
                         </div>
 
                         <div class="p-6 flex flex-col flex-1">
-                            <div class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-3">
+                            <div class="flex items-center gap-2 text-[13px] uppercase tracking-widest text-black mb-3">
                                 <span><%= formatToDDMMYYYY(post.publishDate) %></span>
                             </div>
 
