@@ -11,7 +11,7 @@
                     <%= post.excerpt || 'Read this insightful blog post from Kestora University student ambassadors.' %>
                 </p>
                 <p class="text-sm text-gray-700">
-                    Published on <%= new Date(post.publishDate).toLocaleDateString() %>
+                    Published on <%= formatToDDMMYYYY(post.publishDate) %>
                 </p>
             </div>
 

@@ -339,7 +339,7 @@
             postDiv.className = 'flex flex-col bg-neutral-100 overflow-hidden group hover:bg-neutral-200 transition-colors h-full';
 
             const date = new Date(post.publishDate);
-            const formattedDate = `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()}`;
+            const formattedDate = `${String(date.getDate()).padStart(2, '0')}.${String(date.getMonth() + 1).padStart(2, '0')}.${date.getFullYear()}`;
 
             postDiv.innerHTML = `
                 <div class="aspect-[16/9] relative overflow-hidden bg-neutral-200">
