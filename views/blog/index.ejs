@@ -166,17 +166,27 @@
                 <% }); %>
             </div>
 
-            <% if (hasMorePosts) { %>
+            <% if (totalPages > 1) { %>
                 <div class="flex justify-center mt-12">
-                    <button
-                        id="load-more-btn"
-                        class="bg-black text-white px-8 py-3 font-medium hover:bg-gray-800 transition-colors"
-                        data-offset="<%= currentOffset + posts.length %>"
-                        data-category="<%= category || '' %>"
-                        data-search="<%= search || '' %>"
-                    >
-                        Load More
-                    </button>
+                    <nav class="flex items-center space-x-2">
+                        <% if (currentPage > 1) { %>
+                            <a href="<%= `/?${category ? `category=${encodeURIComponent(category)}&` : ''}${search ? `search=${encodeURIComponent(search)}&` : ''}page=${currentPage - 1}` %>" class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition-colors">
+                                Previous
+                            </a>
+                        <% } %>
+
+                        <% for (let i = Math.max(1, currentPage - 2); i <= Math.min(totalPages, currentPage + 2); i++) { %>
+                            <a href="<%= `/?${category ? `category=${encodeURIComponent(category)}&` : ''}${search ? `search=${encodeURIComponent(search)}&` : ''}page=${i}` %>" class="<%= i === currentPage ? 'px-4 py-2 bg-black text-white rounded' : 'px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition-colors' %>">
+                                <%= i %>
+                            </a>
+                        <% } %>
+
+                        <% if (currentPage < totalPages) { %>
+                            <a href="<%= `/?${category ? `category=${encodeURIComponent(category)}&` : ''}${search ? `search=${encodeURIComponent(search)}&` : ''}page=${currentPage + 1}` %>" class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition-colors">
+                                Next
+                            </a>
+                        <% } %>
+                    </nav>
                 </div>
             <% } %>
         <% } %>

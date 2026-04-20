@@ -90,6 +90,7 @@ router.get('/', async (req, res) => {
     }
 
     const { count } = await countQuery;
+    const totalPages = Math.ceil(count / postsPerPage);
     const hasMorePosts = count > postsPerPage;
 
     // Get all unique categories for filtering (Currently disabled as categories column does not exist)
@@ -126,6 +127,8 @@ router.get('/', async (req, res) => {
       category,
       categories,
       search,
+      currentPage: page,
+      totalPages,
       formatToDDMMYYYY
     });
 
