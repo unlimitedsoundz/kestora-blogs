@@ -6,8 +6,8 @@
   "scripts": {
     "start": "npm run build && node index.js",
     "dev": "npm run build && node index.js",
-    "build": "echo 'Building CSS...' && npx tailwindcss -i ./public/css/styles.css -o ./public/css/output.css && echo 'CSS build complete!'",
-    "build-css": "npx tailwindcss -i ./public/css/styles.css -o ./public/css/output.css --watch",
+    "build": "echo 'Building CSS...' && npx @tailwindcss/cli -i ./public/css/styles.css -o ./public/css/output.css && echo 'CSS build complete!'",
+    "build-css": "npx @tailwindcss/cli -i ./public/css/styles.css -o ./public/css/output.css --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
 
@@ -23,6 +23,7 @@
     "express": "^4.19.2"
   },
   "devDependencies": {
+    "@tailwindcss/cli": "^4.2.2",
     "autoprefixer": "^10.5.0",
     "postcss": "^8.5.10",
     "tailwindcss": "^4.2.2"
